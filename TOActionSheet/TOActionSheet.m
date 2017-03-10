@@ -30,7 +30,7 @@ typedef NS_ENUM(NSInteger, TOActionSheetArrowDirection) {
     TOActionSheetArrowDirectionRight
 };
 
-const CGFloat kTOActionSheetButtonHeight  = 56.0f;
+const CGFloat kTOActionSheetButtonHeight  = 52.0f;//56.0f;
 const CGFloat kTOActionSheetDefaultWidth  = 300.0f;
 const CGFloat kTOActionSheetBorderRadius  = 15.0f;
 const CGFloat kTOActionSheetTitlePadding  = 15.0f;
@@ -910,11 +910,11 @@ const CGFloat kTOActionSheetScreenPadding = 20.0f;
         secondIndex++;
     }
     
-    if (firstIndex >= 0)
-        [self.separatorViews[firstIndex] setHidden:YES];
-    
-    if (secondIndex >= 0 && secondIndex < self.separatorViews.count)
-        [self.separatorViews[secondIndex] setHidden:YES];
+//    if (firstIndex >= 0)
+//        [self.separatorViews[firstIndex] setHidden:YES];
+//    
+//    if (secondIndex >= 0 && secondIndex < self.separatorViews.count)
+//        [self.separatorViews[secondIndex] setHidden:YES];
 }
 
 - (void)buttonTapUp:(id)sender
