@@ -6,6 +6,7 @@ Pod::Spec.new do |s|
   s.homepage = 'https://github.com/TimOliver/TOActionSheet'
   s.author   = 'Tim Oliver'
   #s.source   = { :git => 'https://github.com/TimOliver/TOActionSheet.git', :tag => s.version.to_s }
+  s.source   = { :git => 'https://www.github.com/LicL/TOActionSheet.git'}
   s.platform = :ios, '7.0'
 
   s.source_files = 'TOActionSheet/**/*.{h,m}'
