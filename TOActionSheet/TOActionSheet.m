@@ -489,13 +489,13 @@ const CGFloat kTOActionSheetScreenPadding = 20.0f;
             }
         }
         
-        if (i == 0 && self.buttonTitles.count > 1 && (self.title.length == 0 && self.headerView == nil)) {
+        if (i == 0 && self.buttonTitles.count > 1 && (self.title.length == 0 && self.headerView == nil) && self.destructiveTitle.length == 0) {
             UIImage *background = [self buttonBackgroundImageWithColor:self.buttonBackgroundColor roundedTop:YES roundedBottom:NO];
             UIImage *backgroundPressed = [self buttonBackgroundImageWithColor:self.buttonTappedBackgroundColor roundedTop:YES roundedBottom:NO];
             [button setBackgroundImage:background forState:UIControlStateNormal];
             [button setBackgroundImage:backgroundPressed forState:UIControlStateHighlighted];
         }
-        else if (i >= self.buttonTitles.count-1 && self.destructiveTitle.length == 0) {
+        else if (i >= self.buttonTitles.count-1) {
             UIImage *background = [self buttonBackgroundImageWithColor:self.buttonBackgroundColor roundedTop:NO roundedBottom:YES];
             UIImage *backgroundPressed = [self buttonBackgroundImageWithColor:self.buttonTappedBackgroundColor roundedTop:NO roundedBottom:YES];
             [button setBackgroundImage:background forState:UIControlStateNormal];
@@ -571,11 +571,11 @@ const CGFloat kTOActionSheetScreenPadding = 20.0f;
         }
     }
     
-    BOOL roundedTop = (self.buttonTitles.count == 0 && self.headerView == nil && self.title.length == 0);
-    UIImage *backgroundImage = [self buttonBackgroundImageWithColor:self.destructiveButtonBackgroundColor roundedTop:roundedTop roundedBottom:YES];
+    BOOL roundedBottom = (self.buttonTitles.count == 0 && self.headerView == nil && self.title.length == 0);
+    UIImage *backgroundImage = [self buttonBackgroundImageWithColor:self.destructiveButtonBackgroundColor roundedTop:YES roundedBottom:roundedBottom];
     [self.destructiveButton setBackgroundImage:backgroundImage forState:UIControlStateNormal];
     
-    UIImage *backgroundTappedImage = [self buttonBackgroundImageWithColor:self.destructiveButtonTappedBackgroundColor roundedTop:roundedTop roundedBottom:YES];
+    UIImage *backgroundTappedImage = [self buttonBackgroundImageWithColor:self.destructiveButtonTappedBackgroundColor roundedTop:YES roundedBottom:roundedBottom];
     [self.destructiveButton setBackgroundImage:backgroundTappedImage forState:UIControlStateHighlighted];
     
     [self.destructiveButton addTarget:self action:@selector(buttonTapped:) forControlEvents:UIControlEventTouchUpInside];
@@ -588,6 +588,9 @@ const CGFloat kTOActionSheetScreenPadding = 20.0f;
         numberOfSeparators++;
     
     numberOfSeparators += (self.buttonTitles.count - 1);
+    
+    if (self.destructiveTitle)
+        numberOfSeparators++;
     
     CGFloat lineHeight = 1.0f / [[UIScreen mainScreen] scale];
     
@@ -682,6 +685,15 @@ const CGFloat kTOActionSheetScreenPadding = 20.0f;
         height += self.headerBackgroundView.frame.size.height;
     }
     
+    //Add the destructive button
+    if (self.destructiveButton) {
+        frame = self.destructiveButton.frame;
+        frame.origin.y = height;
+        self.destructiveButton.frame = frame;
+        [self.containerView addSubview:self.destructiveButton];
+        height += frame.size.height;
+    }
+    
     //Add the regular buttons
     for (UIButton *button in self.buttonViews) {
         frame = button.frame;
@@ -689,14 +701,6 @@ const CGFloat kTOActionSheetScreenPadding = 20.0f;
         button.frame = frame;
         [self.containerView addSubview:button];
         height += frame.size.height;
-    }
-    
-    //Add the destructive button
-    if (self.destructiveButton) {
-        frame = self.destructiveButton.frame;
-        frame.origin.y = height;
-        self.destructiveButton.frame = frame;
-        [self.containerView addSubview:self.destructiveButton];
     }
     
     //Add the separators
